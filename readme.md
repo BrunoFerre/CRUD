@@ -1,1 +1,1 @@
-<image src="./Der.png" alt="Diagram" />
+<image src="./Der2.5.png" alt="Diagram" />
