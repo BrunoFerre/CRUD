@@ -1,9 +1,12 @@
 package com.course.CRUD.repositories;
 
-import com.course.CRUD.subModels.Mentors;
+import com.course.CRUD.subModels.Mentor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MentorRepository extends JpaRepository<Mentors, Long> {
+public interface MentorRepository extends JpaRepository<Mentor, Long> {
+    Mentor findByEmail(String email);
+    boolean existsByCode(String mentor_code);
+    Mentor findByCode(String mentorCode);
 }

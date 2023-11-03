@@ -1,13 +1,78 @@
 package com.course.CRUD;
 
+import com.course.CRUD.models.Modules;
+import com.course.CRUD.repositories.AdminRepository;
+import com.course.CRUD.repositories.MentorRepository;
+import com.course.CRUD.repositories.ModulesRepository;
+import com.course.CRUD.repositories.StudentRepository;
+import com.course.CRUD.subModels.Admin;
+import com.course.CRUD.subModels.Mentor;
+import com.course.CRUD.subModels.Student;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 @SpringBootApplication
 public class CrudApplication {
 
+private final List<String> webTech = List.of("HTML","CSS3","FLEXBOX","AGILE");
+private final List<String> jsTech = List.of("JAVASCRIPT","VUE.JS","QUERY SELECTOR","AJAX","JSON","APIs","BOOSTRAP");
+private final List<String> javaTech = List.of("JAVA","SPRING","SPRING SECURITY","SPRING DATA JPA","TEST","POSTGRESQL");
+private final List<String> boostTech = List.of("Know yourself","Practices Interviews","Elevetor Pitch CV ","Linkedin","Job search");
 	public static void main(String[] args) {
 		SpringApplication.run(CrudApplication.class, args);
 	}
+	@Bean
+	public CommandLineRunner initData(StudentRepository studentRepository,
+									  MentorRepository mentorRepository,
+									  AdminRepository adminRepository,
+									  ModulesRepository modulesRepository,
+									  PasswordEncoder passwordEncoder) {
+		return (args) -> {
+			Student student = new Student("STU-0001-BR", "Bruno Marcos", "Ferreira", "bruno@gmail.com", passwordEncoder.encode("password"), 20,true);
+			studentRepository.save(student);
+
+
+			Mentor webMentor = new Mentor("MNT-0002-CM", "Camila ", "Domato", "camila@gmail.com", passwordEncoder.encode("password"), 20,true);
+
+			Mentor jsMentor = new Mentor("MNT-0003-NC", "Nicolas ", "Cirulli", "nico@gmail.com", passwordEncoder.encode("password"), 20,true);
+
+			Mentor javaMentor = new Mentor("MNT-0001-MT", "Martin ", "Araolaza", "martin@gmail.com", passwordEncoder.encode("password"), 20,true);
+
+			Mentor boostMentor = new Mentor("MNT-0004-AG", "Antonella ", "Galeano", "antonella@gmail.com", passwordEncoder.encode("password"), 20,true);
+
+			Admin admin = new Admin("ADM-0001-EM", "Elias", "Medina", "elias@gmail.com", passwordEncoder.encode("password"), 20,true);
+
+			mentorRepository.save(webMentor);
+			mentorRepository.save(jsMentor);
+			mentorRepository.save(javaMentor);
+			mentorRepository.save(boostMentor);
+			adminRepository.save(admin);
+
+			Modules webTechModule = new Modules("Web Tech", webTech, 80);
+			Modules jsTechModule = new Modules("JS Tech", jsTech, 120);
+			Modules javaTechModule = new Modules("Java Tech", javaTech, 460);
+			Modules boostTechModule = new Modules("Boost Tech", boostTech, 40);
+
+			webMentor.addModules(webTechModule);
+			jsMentor.addModules(jsTechModule);
+			javaMentor.addModules(javaTechModule);
+			boostMentor.addModules(boostTechModule);
+
+			mentorRepository.save(webMentor);
+			mentorRepository.save(jsMentor);
+			mentorRepository.save(javaMentor);
+			mentorRepository.save(boostMentor);
+
+			modulesRepository.save(webTechModule);
+			modulesRepository.save(jsTechModule);
+			modulesRepository.save(javaTechModule);
+			modulesRepository.save(boostTechModule);
+		};
+	};
 
 }
