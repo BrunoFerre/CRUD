@@ -36,7 +36,6 @@ private final List<String> boostTech = List.of("Know yourself","Practices Interv
 			Student student = new Student("STU-0001-BR", "Bruno Marcos", "Ferreira", "bruno@gmail.com", passwordEncoder.encode("password"), 20,true);
 			studentRepository.save(student);
 
-
 			Mentor webMentor = new Mentor("MNT-0002-CM", "Camila ", "Domato", "camila@gmail.com", passwordEncoder.encode("password"), 20,true);
 
 			Mentor jsMentor = new Mentor("MNT-0003-NC", "Nicolas ", "Cirulli", "nico@gmail.com", passwordEncoder.encode("password"), 20,true);

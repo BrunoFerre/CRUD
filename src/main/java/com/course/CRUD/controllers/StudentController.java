@@ -1,17 +1,29 @@
 package com.course.CRUD.controllers;
 
+import com.course.CRUD.dto.student.StudentDTO;
 import com.course.CRUD.models.Cohort;
 import com.course.CRUD.repositories.CohortRepository;
 import com.course.CRUD.repositories.StudentRepository;
 import com.course.CRUD.subModels.Student;
+import com.course.CRUD.utils.ErrorMessage;
+import com.course.CRUD.utils.GenerateCode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api/student")
@@ -20,7 +32,22 @@ public class StudentController {
     private StudentRepository studentRepository;
     @Autowired
     private CohortRepository cohortRepository;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @PostMapping
+    public ResponseEntity<Object> createStudent(@RequestBody @Valid StudentDTO studentDTO) {
+        String student_code;
+        int code;
+        do {
+            code = GenerateCode.generateNumber(1, 1000);
+            student_code = "STD-"+code+"-"+studentDTO.getFirstName();
+        } while (studentRepository.existsByCode(student_code));
+        Student student = new Student(
+                student_code, studentDTO.getFirstName(), studentDTO.getLastName(), studentDTO.getEmail(), passwordEncoder.encode(studentDTO.getPassword()), studentDTO.getAge(), true
+        );
+        studentRepository.save(student);
+        return new ResponseEntity<>("Welcome Student " + studentDTO.getFirstName(), HttpStatus.CREATED);
+    }
     @PatchMapping
     public ResponseEntity<Object> assignCohortToStudent(@RequestParam long id_cohort, Authentication authentication) {
         Student student = studentRepository.findByEmail(authentication.getName());
@@ -37,4 +64,6 @@ public class StudentController {
         cohortRepository.save(cohort);
         return new ResponseEntity<>("Cohort added", HttpStatus.OK);
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.course.CRUD.subModels;
 import com.course.CRUD.models.Cohort;
 import com.course.CRUD.models.Person;
 import com.course.CRUD.models.enums.Role;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
