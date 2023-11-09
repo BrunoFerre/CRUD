@@ -1,19 +1,18 @@
 package com.course.CRUD;
 
+import com.course.CRUD.models.Cohort;
 import com.course.CRUD.models.Modules;
-import com.course.CRUD.repositories.AdminRepository;
-import com.course.CRUD.repositories.MentorRepository;
-import com.course.CRUD.repositories.ModulesRepository;
-import com.course.CRUD.repositories.StudentRepository;
-import com.course.CRUD.subModels.Admin;
-import com.course.CRUD.subModels.Mentor;
-import com.course.CRUD.subModels.Student;
+import com.course.CRUD.repositories.*;
+import com.course.CRUD.models.subModels.Admin;
+import com.course.CRUD.models.subModels.Mentor;
+import com.course.CRUD.models.subModels.Student;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootApplication
@@ -31,6 +30,7 @@ private final List<String> boostTech = List.of("Know yourself","Practices Interv
 									  MentorRepository mentorRepository,
 									  AdminRepository adminRepository,
 									  ModulesRepository modulesRepository,
+									  CohortRepository cohortRepository,
 									  PasswordEncoder passwordEncoder) {
 		return (args) -> {
 			Student student = new Student("STU-0001-BR", "Bruno Marcos", "Ferreira", "bruno@gmail.com", passwordEncoder.encode("password"), 20,true);
@@ -52,10 +52,10 @@ private final List<String> boostTech = List.of("Know yourself","Practices Interv
 			mentorRepository.save(boostMentor);
 			adminRepository.save(admin);
 
-			Modules webTechModule = new Modules("Web Tech", webTech, 80);
-			Modules jsTechModule = new Modules("JS Tech", jsTech, 120);
-			Modules javaTechModule = new Modules("Java Tech", javaTech, 460);
-			Modules boostTechModule = new Modules("Boost Tech", boostTech, 40);
+			Modules webTechModule = new Modules("Web Tech", webTech, 80,true);
+			Modules jsTechModule = new Modules("JS Tech", jsTech, 120,true);
+			Modules javaTechModule = new Modules("Java Tech", javaTech, 460,	true);
+			Modules boostTechModule = new Modules("Boost Tech", boostTech, 40,true);
 
 			webMentor.addModules(webTechModule);
 			jsMentor.addModules(jsTechModule);
@@ -71,7 +71,12 @@ private final List<String> boostTech = List.of("Know yourself","Practices Interv
 			modulesRepository.save(jsTechModule);
 			modulesRepository.save(javaTechModule);
 			modulesRepository.save(boostTechModule);
-		};
+			Cohort cohort = new Cohort(true, 20, LocalDate.now(), 1);
+			cohort.setStudent(student);
+			cohortRepository.save(cohort);
+			student.addCohort(cohort);
+			studentRepository.save(student);
 	};
 
+}
 }

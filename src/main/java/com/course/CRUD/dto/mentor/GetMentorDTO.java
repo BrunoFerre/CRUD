@@ -1,7 +1,7 @@
 package com.course.CRUD.dto.mentor;
 
 import com.course.CRUD.models.enums.Role;
-import com.course.CRUD.subModels.Mentor;
+import com.course.CRUD.models.subModels.Mentor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +13,7 @@ public class GetMentorDTO {
     private String lastName;
     private String email;
     private String password;
-    private String mentor_code;
+    private String code;
     private Role role;
     private int age;
     public GetMentorDTO(Mentor mentor){
@@ -22,8 +22,7 @@ public class GetMentorDTO {
         this.lastName = mentor.getLastName();
         this.email = mentor.getEmail();
         this.password = mentor.getPassword();
-        this.mentor_code = mentor.getCode();
-        this.role = mentor.getRole();
+        this.code = mentor.getCode();
         this.age = mentor.getAge();
     }
 }

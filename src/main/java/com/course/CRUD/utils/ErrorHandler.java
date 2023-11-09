@@ -18,7 +18,7 @@ public class ErrorHandler {
         BindingResult result = e.getBindingResult();
         List<FieldError> errors = result.getFieldErrors();
         StringBuilder messageError = new StringBuilder();
-        errors.forEach(f -> messageError.append(f.getField() + " " + f.getDefaultMessage() +  " "));
+        errors.forEach(f -> messageError.append(f.getField()).append(" ").append(f.getDefaultMessage()).append(" "));
         ErrorMessage errorMessage = new ErrorMessage(messageError.toString().toUpperCase(),HttpStatus.BAD_REQUEST.value(), request.getRequestURI());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }

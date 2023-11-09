@@ -4,27 +4,17 @@ import com.course.CRUD.dto.student.StudentDTO;
 import com.course.CRUD.models.Cohort;
 import com.course.CRUD.repositories.CohortRepository;
 import com.course.CRUD.repositories.StudentRepository;
-import com.course.CRUD.subModels.Student;
-import com.course.CRUD.utils.ErrorMessage;
+import com.course.CRUD.models.subModels.Student;
 import com.course.CRUD.utils.GenerateCode;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import javax.validation.constraints.NotBlank;
 @Controller
 @RequestMapping("/api/student")
 public class StudentController {
@@ -49,7 +39,7 @@ public class StudentController {
         return new ResponseEntity<>("Welcome Student " + studentDTO.getFirstName(), HttpStatus.CREATED);
     }
     @PatchMapping
-    public ResponseEntity<Object> assignCohortToStudent(@RequestParam long id_cohort, Authentication authentication) {
+    public ResponseEntity<Object> assignCohortToStudent(@RequestParam @NotBlank(message = "Cohort cannot be blank") long id_cohort, Authentication authentication) {
         Student student = studentRepository.findByEmail(authentication.getName());
         if (id_cohort <= 0) {
             return new ResponseEntity<>("Cohort cannot be blank", HttpStatus.BAD_REQUEST);
@@ -64,6 +54,5 @@ public class StudentController {
         cohortRepository.save(cohort);
         return new ResponseEntity<>("Cohort added", HttpStatus.OK);
     }
-
 
 }

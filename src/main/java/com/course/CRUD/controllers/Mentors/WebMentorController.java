@@ -3,7 +3,7 @@ package com.course.CRUD.controllers.Mentors;
 import com.course.CRUD.models.Modules;
 import com.course.CRUD.repositories.MentorRepository;
 import com.course.CRUD.repositories.ModulesRepository;
-import com.course.CRUD.subModels.Mentor;
+import com.course.CRUD.models.subModels.Mentor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

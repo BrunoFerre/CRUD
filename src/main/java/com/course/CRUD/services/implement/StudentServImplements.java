@@ -3,7 +3,7 @@ package com.course.CRUD.services.implement;
 import com.course.CRUD.dto.student.StudentDTO;
 import com.course.CRUD.repositories.StudentRepository;
 import com.course.CRUD.services.StudentService;
-import com.course.CRUD.subModels.Student;
+import com.course.CRUD.models.subModels.Student;
 import com.course.CRUD.utils.GenerateCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

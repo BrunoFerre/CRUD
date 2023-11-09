@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
@@ -14,24 +14,26 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @Data
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-    private Role role;
     private int age;
     private boolean status;
-    public Person(String firstName, String lastName, String email, String password, int age, Role role, boolean status) {
+    public Person(String firstName, String lastName, String email, String password, int age, boolean status) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.age = age;
-        this.role = role;
         this.status = status;
     }
-
 
 }

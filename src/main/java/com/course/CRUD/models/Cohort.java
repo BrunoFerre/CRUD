@@ -1,6 +1,6 @@
 package com.course.CRUD.models;
 
-import com.course.CRUD.subModels.Student;
+import com.course.CRUD.models.subModels.Student;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

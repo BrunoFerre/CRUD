@@ -5,26 +5,18 @@ import com.course.CRUD.models.Modules;
 import com.course.CRUD.repositories.AdminRepository;
 import com.course.CRUD.repositories.MentorRepository;
 import com.course.CRUD.repositories.ModulesRepository;
-import com.course.CRUD.subModels.Admin;
-import com.course.CRUD.subModels.Mentor;
-import com.course.CRUD.utils.ErrorMessage;
+import com.course.CRUD.models.subModels.Admin;
+import com.course.CRUD.models.subModels.Mentor;
 import com.course.CRUD.utils.GenerateCode;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/api/mentor")
@@ -39,12 +31,12 @@ public class MentorController {
     private ModulesRepository modulesRepository;
 
     @PostMapping
-    public ResponseEntity<Object> createMentor(@RequestBody MentorDTO mentorDTO) {
+    public ResponseEntity<Object> createMentor(@RequestBody @Valid MentorDTO mentorDTO) {
         String mentor_code;
         int code;
         do {
             code = GenerateCode.generateNumber(1, 1000);
-            mentor_code = "MNT" + code;
+            mentor_code = "MNT-"+code+"-"+mentorDTO.getFirstName();
         } while (mentorRepository.existsByCode(mentor_code));
         Mentor mentor = new Mentor(
                 mentor_code, mentorDTO.getFirstName(), mentorDTO.getLastName(), mentorDTO.getEmail(), passwordEncoder.encode(mentorDTO.getPassword()), mentorDTO.getAge(), true

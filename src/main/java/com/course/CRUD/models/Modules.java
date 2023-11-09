@@ -1,6 +1,6 @@
 package com.course.CRUD.models;
 
-import com.course.CRUD.subModels.Mentor;
+import com.course.CRUD.models.subModels.Mentor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,21 +26,26 @@ public class Modules {
     private List<String> tecnologies = new ArrayList<>();
 
     private int hours;
+    private boolean status;
 
     //relation with course
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @OneToMany(mappedBy = "modules")
+    private Set<Course> Course = new HashSet<>();
     //relation with mentor
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mentor_id")
     private Mentor mentor;
 
-    public Modules(String name, List<String> tecnologies, int totalHours) {
+    public Modules(String name, List<String> tecnologies, int totalHours,boolean status) {
         this.name = name;
         this.tecnologies = tecnologies;
         this.hours = totalHours;
+        this.status = status;
     }
 
+    public void addCourse(Course course) {
+        course.setModules(this);
+        this.Course.add(course);
+    }
 }

@@ -1,6 +1,6 @@
 package com.course.CRUD.repositories;
 
-import com.course.CRUD.subModels.Mentor;
+import com.course.CRUD.models.subModels.Mentor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
